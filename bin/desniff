@@ -1,0 +1,39 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Backdevs\DotenvSniffer\Console\Command\DotenvSniffCommand;
+use Symfony\Component\Console\Application;
+
+const APP_NAME = 'Dotenv Sniffer';
+const APP_VERSION = '0.1.0';
+
+$autoloadFiles = [
+    __DIR__ . '/../../../autoload.php',
+    __DIR__ . '/../vendor/autoload.php',
+];
+
+$loader = null;
+
+foreach ($autoloadFiles as $autoloadFile) {
+    if (file_exists($autoloadFile)) {
+        $loader = require_once $autoloadFile;
+
+        break;
+    }
+}
+
+if ($loader === null) {
+    throw new RuntimeException('Could not find autoload.php');
+}
+
+$command = new DotenvSniffCommand();
+
+$application = new Application(APP_NAME, APP_VERSION);
+
+$application->add($command);
+
+$application->setDefaultCommand($command->getName(), true);
+
+$application->run();

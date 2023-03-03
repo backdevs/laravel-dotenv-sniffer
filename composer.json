@@ -1,0 +1,32 @@
+{
+    "name": "backdevs/dotenv-sniffer",
+    "description": "A code sniffer for environment variables not defined in the .env file.",
+    "type": "library",
+    "keywords": [
+        "php",
+        "dotenv",
+        "sniffer"
+    ],
+    "require": {
+        "php": "^8.1",
+        "ext-tokenizer": "*",
+        "symfony/console": "^6.2",
+        "vlucas/phpdotenv": "^5.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Backdevs\\DotenvSniffer\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Bogdan",
+            "email": "bogdan@backdevs.net"
+        }
+    ],
+    "minimum-stability": "stable",
+    "bin": [
+        "bin/desniff"
+    ]
+}
