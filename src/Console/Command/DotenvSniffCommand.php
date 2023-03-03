@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Backdevs\DotenvSniffer\Console\Command;
 
+use Backdevs\DotenvSniffer\Validator\Constraints as DotenvSnifferAssert;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Exception\ValidationFailedException;
+use Symfony\Component\Validator\Validation;
 
 #[AsCommand(
     name: 'desniff',
@@ -37,8 +41,37 @@ class DotenvSniffCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        print json_encode($input->getArguments(), JSON_PRETTY_PRINT);
+
+        $this->validateInputArguments($input);
+
         // TODO: Implement execute() method.
 
         return self::SUCCESS;
+    }
+
+    private function validateInputArguments(InputInterface $input): void
+    {
+        $validator = Validation::createValidator();
+
+        $violations = $validator->validate(
+            $input->getArguments(),
+            new Assert\Collection([
+                'env-file' => [
+                    new Assert\Required(),
+                    new Assert\File(),
+                ],
+                'paths' => new Assert\All([
+                    new Assert\AtLeastOneOf([
+                        new Assert\File(),
+                        new DotenvSnifferAssert\Directory(),
+                    ]),
+                ]),
+            ]),
+        );
+
+        if ($violations->count() > 0) {
+            throw new ValidationFailedException('Invalid config file', $violations);
+        }
     }
 }
