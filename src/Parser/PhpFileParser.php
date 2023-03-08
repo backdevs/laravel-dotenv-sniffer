@@ -55,11 +55,21 @@ class PhpFileParser
             }
 
             // Special case for Laravel's Illuminate\Support\Env::get()
-            if ($tokens[$pos]->text === 'get' && !$this->isLaravelEnvHelperGetCall($file, $pos)) {
-                continue;
+            $isLaravelEnvHelperGetCall = false;
+            if ($tokens[$pos]->text === 'get') {
+                if (!$this->isLaravelEnvHelperGetCall($file, $pos)) {
+                    continue;
+                }
+
+                $isLaravelEnvHelperGetCall = true;
             }
 
-            $variable = $this->getVariable($file, $openBracketPos);
+            $defaultable = false;
+            if ($isLaravelEnvHelperGetCall || $tokens[$pos]->text === 'env') {
+                $defaultable = true;
+            }
+
+            $variable = $this->getVariable($file, $openBracketPos, $defaultable);
             if ($variable === null) {
                 continue;
             }
@@ -70,47 +80,49 @@ class PhpFileParser
         return $variables;
     }
 
-    private function getVariable(PhpFile $file, int $currentPos): ?Variable
+    private function getVariable(PhpFile $file, int $pos, bool $defaultable): ?Variable
     {
-        $currentPos = $file->findNext(self::IGNORABLE_TOKEN_IDS, $currentPos + 1, exclude: true);
-        if ($currentPos === null || !$file->getToken($currentPos)->is(T_CONSTANT_ENCAPSED_STRING)) {
+        $pos = $file->findNext(self::IGNORABLE_TOKEN_IDS, $pos + 1, exclude: true);
+        if ($pos === null || !$file->getToken($pos)->is(T_CONSTANT_ENCAPSED_STRING)) {
             return null;
         }
 
-        $variableName = trim($file->getToken($currentPos)->text, '\'"');
-        $lineNumber = $file->getToken($currentPos)->line;
+        $variableName = trim($file->getToken($pos)->text, '\'"');
+        $lineNumber = $file->getToken($pos)->line;
         $hasDefault = false;
 
-        $currentPos = $file->findNext(self::IGNORABLE_TOKEN_IDS, $currentPos + 1, exclude: true);
-        if ($currentPos === null || !$file->getToken($currentPos)->is(',')) {
-            $hasDefault = true;
+        if ($defaultable === true) {
+            $pos = $file->findNext(self::IGNORABLE_TOKEN_IDS, $pos + 1, exclude: true);
+            if ($pos !== null && $file->getToken($pos)->is(',')) {
+                $hasDefault = true;
+            }
         }
 
         return new Variable($variableName, $hasDefault, $lineNumber);
     }
 
-    private function isLaravelEnvHelperGetCall(PhpFile $file, int $currentPos): bool
+    private function isLaravelEnvHelperGetCall(PhpFile $file, int $pos): bool
     {
-        $currentPos = $file->findPrevious(self::IGNORABLE_TOKEN_IDS, $currentPos - 1, exclude: true);
+        $pos = $file->findPrevious(self::IGNORABLE_TOKEN_IDS, $pos - 1, exclude: true);
 
         if (
-            $currentPos === null
-            || !$file->getToken($currentPos)->is(T_PAAMAYIM_NEKUDOTAYIM)
+            $pos === null
+            || !$file->getToken($pos)->is(T_PAAMAYIM_NEKUDOTAYIM)
         ) {
             return false;
         }
 
-        $currentPos = $file->findPrevious(
+        $pos = $file->findPrevious(
             self::IGNORABLE_TOKEN_IDS,
-            $currentPos - 1,
+            $pos - 1,
             exclude: true
         );
 
         if (
-            $currentPos === null
-            || !$file->getToken($currentPos)->is([T_STRING, T_NAME_FULLY_QUALIFIED])
+            $pos === null
+            || !$file->getToken($pos)->is([T_STRING, T_NAME_FULLY_QUALIFIED])
             || !in_array(
-                ltrim($file->getToken($currentPos)->text, '\\'),
+                ltrim($file->getToken($pos)->text, '\\'),
                 // TODO: Also check in case of "Env" that "Illuminate\Support\Env" is `use`d in the file
                 ['Illuminate\Support\Env', 'Env'],
                 true
