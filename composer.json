@@ -1,7 +1,7 @@
 {
     "name": "backdevs/dotenv-sniffer",
     "type": "library",
-    "description": "A code sniffer for environment variables not defined in a .env file.",
+    "description": "A code sniffer for environment variables not defined in .env files",
     "homepage": "https://github.com/backdevs/php-dotenv-sniffer",
     "license": "MIT",
     "authors": [
