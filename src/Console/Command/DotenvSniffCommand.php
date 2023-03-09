@@ -70,7 +70,6 @@ class DotenvSniffCommand extends Command
                 mode: InputOption::VALUE_OPTIONAL,
                 description: 'Custom integer fail code, useful in CI/CD pipelines',
                 default: self::FAILURE,
-
             ),
         ]));
     }
