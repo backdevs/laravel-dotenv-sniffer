@@ -1,6 +1,6 @@
 {
     "name": "backdevs/dotenv-sniffer",
-    "description": "A code sniffer for environment variables not defined in the .env file.",
+    "description": "A code sniffer for environment variables not defined in a .env file.",
     "type": "library",
     "keywords": [
         "php",

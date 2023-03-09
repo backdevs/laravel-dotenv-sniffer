@@ -27,7 +27,7 @@ use Symfony\Component\Validator\Validation;
 
 #[AsCommand(
     name: 'desniff',
-    description: 'A code sniffer for environment variables not defined in the .env file.',
+    description: 'A code sniffer for environment variables not defined in a .env file.',
 )]
 class DotenvSniffCommand extends Command
 {
