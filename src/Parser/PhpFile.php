@@ -19,11 +19,6 @@ class PhpFile
         $this->tokensCount = count($this->tokens);
     }
 
-    public function __destruct()
-    {
-        unset($this->tokens);
-    }
-
     public function getTokens(): array
     {
         return $this->tokens;
