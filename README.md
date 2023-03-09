@@ -56,15 +56,5 @@ return [
 ```
 
 Output for `vendor/bin/desniff -w .env.example config.php`
-```text
-FILE: /home/bogdan/Projects/backdevs/dotenv-sniffer/example/config.php
-----------------------------------------------------------------------
-FOUND 2 ERROR(S) AND 2 WARNING(S)
-----------------------------------------------------------------------
- 8  | WARNING | APP_KEY is not declared but has default value
- 13 | ERROR   | DB_USERNAME is not declared
- 14 | WARNING | DB_PASSWORD is not declared but has default value
- 15 | ERROR   | DB_DATABASE is not declared
-----------------------------------------------------------------------
-Duration: 0.01 secs; Memory: 4.00 MB
-```
+
+![image](https://user-images.githubusercontent.com/9194446/224118776-a4dcd873-d3bf-4c7b-836b-c7e72b47ae6e.png)
