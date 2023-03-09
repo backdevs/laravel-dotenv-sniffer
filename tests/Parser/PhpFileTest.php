@@ -53,15 +53,6 @@ class PhpFileTest extends TestCase
 
         $pos = $phpFile->findPrevious($types, $startPos, $endPos, $exclude);
 
-        dump(sprintf(
-            '%d -> %s (%d) - %s @ %d',
-            $pos,
-            token_name($phpFile->getToken($pos)->id),
-            $phpFile->getToken($pos)->id,
-            $phpFile->getToken($pos)->text,
-            $phpFile->getToken($pos)->line,
-        ));
-
         self::assertEquals($expectedPos, $pos);
         self::assertEquals($expectedToken, $phpFile->getToken($pos));
     }
