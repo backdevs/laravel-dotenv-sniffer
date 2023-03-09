@@ -18,7 +18,7 @@ class DirectoryValidatorTest extends ConstraintValidatorTestCase
     {
         self::expectException(UnexpectedTypeException::class);
 
-        $this->validator->validate('some-value', new class extends Constraint{});
+        $this->validator->validate('some-value', new class extends Constraint {});
     }
 
     public function testNullValueIsValid(): void
