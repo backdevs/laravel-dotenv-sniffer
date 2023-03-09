@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Validator\Constraints;
+namespace Tests\Validator\Constraints;
 
 use Backdevs\DotenvSniffer\Validator\Constraints\Directory;
 use Backdevs\DotenvSniffer\Validator\Constraints\DirectoryValidator;
