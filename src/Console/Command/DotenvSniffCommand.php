@@ -56,6 +56,11 @@ class DotenvSniffCommand extends Command
             new InputArgument('paths', InputArgument::IS_ARRAY | InputArgument::REQUIRED,
                 description: 'One or more files and/or directories to check',
             ),
+            new InputOption('fail-code', 'c', InputOption::VALUE_OPTIONAL,
+                description: 'Custom integer fail code, useful in CI/CD pipelines',
+                default: self::FAILURE,
+
+            ),
         ]));
     }
 
@@ -111,7 +116,7 @@ class DotenvSniffCommand extends Command
         ));
 
         if ($reporter->hasErrors() && !$input->getOption('no-fail')) {
-            return self::FAILURE;
+            return (int) $input->getOption('fail-code');
         }
 
         return self::SUCCESS;
