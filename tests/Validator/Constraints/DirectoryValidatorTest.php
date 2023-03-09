@@ -67,7 +67,7 @@ class DirectoryValidatorTest extends ConstraintValidatorTestCase
         $message = '{{ path }} not dir';
 
         $constraint = new Directory([
-            'notFoundMessage' => $message,
+            'notDirectoryMessage' => $message,
         ]);
 
         $this->validator->validate($path, $constraint);
