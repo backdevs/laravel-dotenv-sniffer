@@ -112,7 +112,7 @@ class PhpFileParser
 
         if (
             $pos === null
-            || !$file->getToken($pos)->is([T_STRING, T_NAME_FULLY_QUALIFIED])
+            || !$file->getToken($pos)->is([T_STRING, T_NAME_FULLY_QUALIFIED, T_NAME_QUALIFIED])
             || !in_array(
                 ltrim($file->getToken($pos)->text, '\\'),
                 // TODO: Also check in case of "Env" that "Illuminate\Support\Env" is `use`d in the file
