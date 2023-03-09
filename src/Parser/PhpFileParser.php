@@ -6,13 +6,6 @@ namespace Backdevs\DotenvSniffer\Parser;
 
 class PhpFileParser
 {
-    public const IGNORABLE_TOKEN_IDS = [
-        T_WHITESPACE,
-        T_COMMENT,
-        T_DOC_COMMENT,
-        T_OPEN_TAG,
-    ];
-
     private const ENV_ACCESSORS = [
         'env',
         'getenv',
@@ -48,7 +41,7 @@ class PhpFileParser
                 continue;
             }
 
-            $openBracketPos = $file->findNext(self::IGNORABLE_TOKEN_IDS, $pos + 1, exclude: true);
+            $openBracketPos = $file->findNext(PhpFile::IGNORABLE_TOKENS, $pos + 1, exclude: true);
             if ($openBracketPos === null || !$file->getToken($openBracketPos)->is(self::ENV_ACCESSORS_OPEN_BRACKETS)) {
                 continue;
             }
@@ -81,7 +74,7 @@ class PhpFileParser
 
     private function getVariable(PhpFile $file, int $pos, bool $defaultable): ?Variable
     {
-        $pos = $file->findNext(self::IGNORABLE_TOKEN_IDS, $pos + 1, exclude: true);
+        $pos = $file->findNext(PhpFile::IGNORABLE_TOKENS, $pos + 1, exclude: true);
         if ($pos === null || !$file->getToken($pos)->is(T_CONSTANT_ENCAPSED_STRING)) {
             return null;
         }
@@ -91,7 +84,7 @@ class PhpFileParser
         $hasDefault = false;
 
         if ($defaultable === true) {
-            $pos = $file->findNext(self::IGNORABLE_TOKEN_IDS, $pos + 1, exclude: true);
+            $pos = $file->findNext(PhpFile::IGNORABLE_TOKENS, $pos + 1, exclude: true);
             if ($pos !== null && $file->getToken($pos)->is(',')) {
                 $hasDefault = true;
             }
@@ -102,7 +95,7 @@ class PhpFileParser
 
     private function isLaravelEnvHelperGetCall(PhpFile $file, int $pos): bool
     {
-        $pos = $file->findPrevious(self::IGNORABLE_TOKEN_IDS, $pos - 1, exclude: true);
+        $pos = $file->findPrevious(PhpFile::IGNORABLE_TOKENS, $pos - 1, exclude: true);
 
         if (
             $pos === null
@@ -112,7 +105,7 @@ class PhpFileParser
         }
 
         $pos = $file->findPrevious(
-            self::IGNORABLE_TOKEN_IDS,
+            PhpFile::IGNORABLE_TOKENS,
             $pos - 1,
             exclude: true
         );

@@ -7,6 +7,13 @@ use RuntimeException;
 
 class PhpFile
 {
+    public const IGNORABLE_TOKENS = [
+        T_WHITESPACE,
+        T_COMMENT,
+        T_DOC_COMMENT,
+        T_OPEN_TAG,
+    ];
+
     /** @var PhpToken[] */
     private array $tokens;
 
