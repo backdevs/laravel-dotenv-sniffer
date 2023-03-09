@@ -36,27 +36,26 @@ class PhpFileParser
     public function parse(string $filePath): array
     {
         $file = new PhpFile($filePath);
-        $tokens = $file->getTokens();
 
         $variables = [];
 
         for ($pos = 0; $pos < $file->getTokensCount(); ++$pos) {
             if (
-                $tokens[$pos]->isIgnorable()
-                || !$tokens[$pos]->is(self::ENV_ACCESSOR_TYPES)
-                || !in_array($tokens[$pos], self::ENV_ACCESSORS)
+                $file->getToken($pos)->isIgnorable()
+                || !$file->getToken($pos)->is(self::ENV_ACCESSOR_TYPES)
+                || !$file->getToken($pos)->is(self::ENV_ACCESSORS)
             ) {
                 continue;
             }
 
             $openBracketPos = $file->findNext(self::IGNORABLE_TOKEN_IDS, $pos + 1, exclude: true);
-            if ($tokens[$openBracketPos] === null || !$tokens[$openBracketPos]->is(self::ENV_ACCESSORS_OPEN_BRACKETS)) {
+            if ($openBracketPos === null || !$file->getToken($openBracketPos)->is(self::ENV_ACCESSORS_OPEN_BRACKETS)) {
                 continue;
             }
 
             // Special case for Laravel's Illuminate\Support\Env::get()
             $isLaravelEnvHelperGetCall = false;
-            if ($tokens[$pos]->text === 'get') {
+            if ($file->getToken($pos)->is('get')) {
                 if (!$this->isLaravelEnvHelperGetCall($file, $pos)) {
                     continue;
                 }
@@ -65,7 +64,7 @@ class PhpFileParser
             }
 
             $defaultable = false;
-            if ($isLaravelEnvHelperGetCall || $tokens[$pos]->text === 'env') {
+            if ($isLaravelEnvHelperGetCall || $file->getToken($pos)->is('env')) {
                 $defaultable = true;
             }
 
