@@ -67,5 +67,4 @@ FOUND 2 ERROR(S) AND 2 WARNING(S)
  15 | ERROR   | DB_DATABASE is not declared
 ----------------------------------------------------------------------
 Duration: 0.01 secs; Memory: 4.00 MB
-
 ```
