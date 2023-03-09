@@ -31,6 +31,12 @@ use Symfony\Component\Validator\Validation;
 )]
 class DotenvSniffCommand extends Command
 {
+    public const OPTION_NO_FAIL = 'no-fail';
+    public const OPTION_WARN_WITH_DEFAULT = 'warn-with-default';
+    public const OPTION_FAIL_CODE = 'fail-code';
+    public const ARGUMENT_ENV_FILE = 'env-file';
+    public const ARGUMENT_PATHS = 'paths';
+
     private Stopwatch $stopwatch;
 
     public function __construct(string $name = null)
@@ -43,20 +49,25 @@ class DotenvSniffCommand extends Command
     protected function configure(): void
     {
         $this->setDefinition(new InputDefinition([
-            new InputOption('no-fail', mode: InputOption::VALUE_NONE,
+            new InputOption(self::OPTION_NO_FAIL,
+                mode: InputOption::VALUE_NONE,
                 description: 'Don\'t fail if errors are found',
             ),
-            new InputOption('warn-with-default', 'w', InputOption::VALUE_NONE,
+            new InputOption(self::OPTION_WARN_WITH_DEFAULT, 'w',
+                mode: InputOption::VALUE_NONE,
                 description: 'Treat variables with default values passed to Laravel\'s env helper as warnings',
             ),
-            new InputArgument('env-file', InputArgument::REQUIRED,
+            new InputArgument(self::ARGUMENT_ENV_FILE,
+                mode: InputArgument::REQUIRED,
                 description: 'The .env file to check against',
                 suggestedValues: ['.env', '.env.example', '.env.dev'],
             ),
-            new InputArgument('paths', InputArgument::IS_ARRAY | InputArgument::REQUIRED,
+            new InputArgument(self::ARGUMENT_PATHS,
+                mode: InputArgument::IS_ARRAY | InputArgument::REQUIRED,
                 description: 'One or more files and/or directories to check',
             ),
-            new InputOption('fail-code', 'c', InputOption::VALUE_OPTIONAL,
+            new InputOption(self::OPTION_FAIL_CODE, 'c',
+                mode: InputOption::VALUE_OPTIONAL,
                 description: 'Custom integer fail code, useful in CI/CD pipelines',
                 default: self::FAILURE,
 
@@ -71,17 +82,18 @@ class DotenvSniffCommand extends Command
 
         $this->validateInputArguments($input);
 
-        $envVariables = array_keys(Dotenv::parse(file_get_contents($input->getArgument('env-file'))));
+        $fileContents = file_get_contents($input->getArgument(self::ARGUMENT_ENV_FILE));
+        $envVariables = array_keys(Dotenv::parse($fileContents));
 
         $parser = new PhpFileParser();
 
         $reporter = new Reporter(
             $output,
             $envVariables,
-            (bool) $input->getOption('warn-with-default'),
+            (bool) $input->getOption(self::OPTION_WARN_WITH_DEFAULT),
         );
 
-        foreach ($input->getArgument('paths') as $path) {
+        foreach ($input->getArgument(self::ARGUMENT_PATHS) as $path) {
             if (is_dir($path)) {
                 $dirIterator = new RecursiveDirectoryIterator(
                     $path,
@@ -98,8 +110,8 @@ class DotenvSniffCommand extends Command
                 if ($file->getExtension() !== 'php') {
                     continue;
                 }
-                $filePath = $file->getRealPath();
 
+                $filePath = $file->getRealPath();
                 $reporter->report(
                     $filePath,
                     $parser->parse($filePath),
@@ -115,8 +127,8 @@ class DotenvSniffCommand extends Command
             $stopwatchEvent->getMemory() / 1024 / 1024,
         ));
 
-        if ($reporter->hasErrors() && !$input->getOption('no-fail')) {
-            return (int) $input->getOption('fail-code');
+        if ($reporter->hasErrors() && !$input->getOption(self::OPTION_NO_FAIL)) {
+            return (int) $input->getOption(self::OPTION_FAIL_CODE);
         }
 
         return self::SUCCESS;
@@ -129,11 +141,11 @@ class DotenvSniffCommand extends Command
         $violations = $validator->validate(
             $input->getArguments(),
             new Assert\Collection([
-                'env-file' => [
+                self::ARGUMENT_ENV_FILE => [
                     new Assert\Required(),
                     new Assert\File(),
                 ],
-                'paths' => new Assert\All([
+                self::ARGUMENT_PATHS => new Assert\All([
                     new Assert\AtLeastOneOf([
                         new Assert\File(),
                         new DotenvSnifferAssert\Directory(),
