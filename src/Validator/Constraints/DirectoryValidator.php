@@ -12,6 +12,10 @@ class DirectoryValidator extends ConstraintValidator
 
     public function validate(mixed $value, Constraint $constraint): void
     {
+        if (!$constraint instanceof Directory) {
+            return;
+        }
+
         $path = realpath($value);
 
         if ($path === false) {
@@ -26,8 +30,6 @@ class DirectoryValidator extends ConstraintValidator
             $this->context->buildViolation($constraint->notDirectoryMessage)
                 ->setParameter('{{ path }}', $value)
                 ->addViolation();
-
-            return;
         }
     }
 }
