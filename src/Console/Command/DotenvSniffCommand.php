@@ -122,7 +122,7 @@ class DotenvSniffCommand extends Command
         $stopwatchEvent = $this->stopwatch->stop($stopwatchEventName);
 
         $output->writeln(sprintf(
-            'Duration: %.2f secs; Memory: %.2fMB',
+            'Duration: %.2f secs; Memory: %.2f MB',
             $stopwatchEvent->getDuration() / 1000,
             $stopwatchEvent->getMemory() / 1024 / 1024,
         ));
