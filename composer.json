@@ -32,6 +32,7 @@
         "bin/desniff"
     ],
     "require-dev": {
+        "ext-intl": "*",
         "phpunit/phpunit": "^10.0",
         "symfony/var-dumper": "^6.2",
         "squizlabs/php_codesniffer": "^3.7",
