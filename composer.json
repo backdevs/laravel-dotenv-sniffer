@@ -13,7 +13,8 @@
     "keywords": [
         "php",
         "dotenv",
-        "sniffer"
+        "sniffer",
+        "laravel"
     ],
     "bin": [
         "bin/desniff"
