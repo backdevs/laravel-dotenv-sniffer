@@ -43,8 +43,11 @@ class DotenvSniffCommand extends Command
     protected function configure(): void
     {
         $this->setDefinition(new InputDefinition([
+            new InputOption('no-fail', mode: InputOption::VALUE_NONE,
+                description: 'Don\'t fail if errors are found',
+            ),
             new InputOption('warn-with-default', 'w', InputOption::VALUE_NONE,
-                description: 'Treat variables with default values passed to Laravel\'s env() function as warnings instead of errors',
+                description: 'Treat variables with default values passed to Laravel\'s env helper as warnings',
             ),
             new InputArgument('env-file', InputArgument::REQUIRED,
                 description: 'The .env file to check against',
@@ -107,7 +110,7 @@ class DotenvSniffCommand extends Command
             $stopwatchEvent->getMemory() / 1024 / 1024,
         ));
 
-        if ($reporter->hasErrors()) {
+        if ($reporter->hasErrors() && !$input->getOption('no-fail')) {
             return self::FAILURE;
         }
 
