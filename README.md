@@ -19,8 +19,8 @@ vendor/bin/desniff .env.example ./config ./app
 ## Options and Arguments
 Options
 - `--no-fail` - Don't fail if errors are found (exit code = 0)
-- `-w` | `--warn-with-default` - Treat variables with default values passed to [Laravel](https://laravel.com/)\'s [`env()`](https://laravel.com/docs/10.x/helpers#method-env) and [`Env::get()`](https://github.com/illuminate/support/blob/a9ee2804c7625bb7f40a2cabb538a1f3d8ba4e28/Env.php#L74-L100) helpers as warnings
-- `-c` | `--fail-code` - The exit code to use when failing (default: 1), useful in CI/CD pipelines
+- `-w | --warn-with-default` - Treat variables with default values in [Laravel](https://laravel.com/)\'s [`env()`](https://laravel.com/docs/10.x/helpers#method-env) calls as warnings
+- `-c | --fail-code` - The exit code to use when failing (default: 1), useful in CI/CD pipelines
 
 Arguments
 - `env-file` - The .env file to check against (e.g.: `.env`, `.env.example`, `.env.dev`)
