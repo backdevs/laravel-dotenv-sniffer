@@ -1,5 +1,5 @@
 # Dotenv Sniffer
-A code sniffer for environment variables not defined in `.env` files
+A code sniffer for environment variables not declared in `.env` files
 
 ## Requirements
 The main system requirements are:
