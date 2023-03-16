@@ -7,6 +7,8 @@ A code sniffer for environment variables not declared in `.env` files
 
 </div>
 
+> :warning: This is project is very much a work in progress and your mileage may vary
+
 ---
 
 ## Requirements
