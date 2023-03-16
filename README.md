@@ -3,6 +3,9 @@
 # Dotenv Sniffer
 A code sniffer for environment variables not declared in `.env` files
 
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/backdevs/php-dotenv-sniffer/ci.yml?label=tests)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/backdevs/php-dotenv-sniffer?label=latest)
+
 <img alt="header" src="resources/readme/header.png" width="800"/>
 
 </div>
