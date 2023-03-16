@@ -3,9 +3,7 @@
 # Dotenv Sniffer
 A code sniffer for environment variables not declared in `.env` files
 
-<img alt="header" src="resources/readme/header.png" width="900"/>
-
-![header](resources/readme/header.png)
+<img alt="header" src="resources/readme/header.png" width="800"/>
 
 </div>
 
