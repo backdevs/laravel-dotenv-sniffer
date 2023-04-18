@@ -17,7 +17,7 @@ jobs:
   test:
     uses: ./.github/workflows/test.yml
 
-  phar:build-and-upload:
+  phar-build-and-upload:
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -57,7 +57,7 @@ jobs:
         tag: ${{ github.ref }}
         overwrite: true
 
-  docker:build-and-push:
+  docker-build-and-push:
     needs: phar-build-and-upload
     runs-on: ubuntu-latest
     steps:
