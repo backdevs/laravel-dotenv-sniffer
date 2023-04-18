@@ -1,0 +1,8 @@
+{
+    "output": "dist/desniff.phar",
+    "chmod": "0755",
+    "algorithm": "SHA256",
+    "exclude-composer-files": true,
+    "exclude-dev-files": true,
+    "compactors": ["KevinGH\\Box\\Compactor\\Php"]
+}
