@@ -46,7 +46,7 @@ jobs:
       with:
         image: backdevs/box:latest
         options: -v ${{ github.workspace }}:/app
-        run: compile
+        run: box compile
 
     - name: Upload PHAR artifact
       uses: actions/upload-artifact@v3
