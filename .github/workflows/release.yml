@@ -17,7 +17,7 @@ jobs:
   test:
     uses: ./.github/workflows/test.yml
 
-  phar-build-and-upload:
+  phar:build-and-upload:
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -37,14 +37,12 @@ jobs:
       run: composer install --prefer-dist --no-progress --no-dev
 
     - name: Cache PHAR
-      id: phar-cache
       uses: actions/cache@v3
       with:
         path: dist/${{ env.PHAR_NAME }}
         key: ${{ runner.os }}-phar-${{ github.ref }}
 
     - name: Build PHAR
-      id: phar
       uses: addnab/docker-run-action@v3
       with:
         image: backdevs/box:latest
@@ -59,11 +57,17 @@ jobs:
         tag: ${{ github.ref }}
         overwrite: true
 
-  docker-build-and-push:
+  docker:build-and-push:
     needs: phar-build-and-upload
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Cache PHAR
+        uses: actions/cache@v3
+        with:
+          path: dist/${{ env.PHAR_NAME }}
+          key: ${{ runner.os }}-phar-${{ github.ref }}
 
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v2
