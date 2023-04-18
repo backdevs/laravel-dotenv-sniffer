@@ -6,7 +6,8 @@ COPY dist/desniff.phar /usr/bin/desniff
 
 RUN apk add --no-cache --virtual .runtime-deps \
       git \
-      tini
+      tini \
+    && chmod +x /usr/bin/desniff
 
 WORKDIR /app
 
