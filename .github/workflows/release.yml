@@ -40,7 +40,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: dist/${{ env.PHAR_NAME }}
-        key: ${{ runner.os }}-phar-${{ github.ref }}
+        key: ${{ runner.os }}-phar-${{ hashFiles('src/*.php') }}
 
     - name: Build PHAR
       uses: addnab/docker-run-action@v3
@@ -67,7 +67,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: dist/${{ env.PHAR_NAME }}
-          key: ${{ runner.os }}-phar-${{ github.ref }}
+          key: ${{ runner.os }}-phar-${{ hashFiles('src/*.php') }}
 
       - name: Setup Docker buildx
         uses: docker/setup-buildx-action@v2
