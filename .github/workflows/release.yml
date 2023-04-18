@@ -2,13 +2,13 @@ name: Release
 
 on:
   release:
-#    types: [published]
+    types: [created]
 
 permissions:
-  contents: read
+  contents: read|write
 
 env:
-  PHAR_PATH: dist/desniff.phar
+  PHAR_NAME: desniff.phar
 
 jobs:
   test:
@@ -37,7 +37,7 @@ jobs:
       id: phar-cache
       uses: actions/cache@v3
       with:
-        path: ${{ env.PHAR_PATH }}
+        path: dist/${{ env.PHAR_NAME }}
         key: ${{ runner.os }}-phar-${{ github.ref }}
 
     - name: Build PHAR
@@ -48,8 +48,10 @@ jobs:
         options: -v ${{ github.workspace }}:/app
         run: box compile
 
-    - name: Upload PHAR artifact
-      uses: actions/upload-artifact@v3
+    - name: Upload PHAR to release
+      uses: svenstaro/upload-release-action@v2
       with:
-        name: desniff.phar
-        path: ${{ env.PHAR_PATH }}
+        file: dist/${{ env.PHAR_NAME }}
+        asset_name: ${{ env.PHAR_NAME }}
+        tag: ${{ github.ref }}
+        overwrite: true
