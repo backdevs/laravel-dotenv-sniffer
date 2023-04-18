@@ -2,10 +2,13 @@ name: Release
 
 on:
   release:
-    types: [published]
+#    types: [published]
 
 permissions:
   contents: read
+
+env:
+  PHAR_PATH: dist/desniff.phar
 
 jobs:
   test:
@@ -22,9 +25,31 @@ jobs:
       uses: actions/cache@v3
       with:
         path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          ${{ runner.os }}-php-
+          ${{ runner.os }}-composer-
 
     - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress --no-dev
+
+    - name: Cache PHAR
+      id: phar-cache
+      uses: actions/cache@v3
+      with:
+        path: ${{ env.PHAR_PATH }}
+        key: ${{ runner.os }}-phar-${{ github.ref }}
+
+    - name: Build PHAR
+      id: phar
+      uses: addnab/docker-run-action@v3
+      with:
+        image: backdevs/box:latest
+        options: -v ${{ github.workspace }}:/app
+        run: compile
+
+    - name: Upload PHAR artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: desniff.phar
+        path: ${{ env.PHAR_PATH }}
