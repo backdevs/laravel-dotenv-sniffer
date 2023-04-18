@@ -1,5 +1,5 @@
 {
-    "output": "dist/desniff",
+    "output": "dist/desniff.phar",
     "chmod": "0755",
     "algorithm": "SHA256",
     "exclude-composer-files": true,
