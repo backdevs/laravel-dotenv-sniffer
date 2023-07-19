@@ -16,17 +16,30 @@ A code sniffer for environment variables not declared in `.env` files
 
 ## Requirements
 The main system requirements are:
-- [PHP](https://www.php.net/downloads) `^8.1`
-- [Tokenizer extension](https://www.php.net/manual/en/book.tokenizer.php)
+- [Docker](https://docs.docker.com/get-docker) `^24.0`
+- [PHP](https://www.php.net/downloads) `^8.1` (required if not using Docker)
+- [Tokenizer extension](https://www.php.net/manual/en/book.tokenizer.php) (required if not using Docker)
 
-## Installation
-```bash
-composer require --dev backdevs/dotenv-sniffer
+## Usage 
+### Docker (recommended)
+Inside your app's root directory, run:
+```shell
+$ docker run -t --rm -v $(pwd):/app backdevs/desniff:latest .env.example ./config ./app
+````
+
+### Composer dependency
+```shell
+$ composer require --dev backdevs/dotenv-sniffer
+
+$ vendor/bin/desniff .env.example ./config ./app
 ```
 
-## Usage
-```bash
-vendor/bin/desniff .env.example ./config ./app
+### PHAR
+```shell
+$ curl -fsSL https://github.com/backdevs/php-dotenv-sniffer/releases/latest/download/desniff.phar -o /tmp/desniff
+$ chmod +x /tmp/desniff
+
+$ /tmp/desniff .env.example ./config ./app
 ```
 
 ## Options and Arguments
@@ -39,15 +52,15 @@ Arguments
 - `env-file` - The .env file to check against (e.g.: `.env`, `.env.example`, `.env.dev`)
 - `paths` - One or more files and/or directories to check
 
-## Quick Example
-The `.env.example` file:
+## Simple Example
+### The `.env.example` file:
 ```dotenv
 APP_NAME=DotenvSniffer
 
 DB_HOST=localhost
 ```
 
-The `config.php` file:
+### The `config.php` file:
 ```php
 <?php
 
@@ -68,6 +81,6 @@ return [
 ];
 ```
 
-Output for `vendor/bin/desniff -w .env.example config.php`
+### Output for `vendor/bin/desniff -w .env.example config.php`
 
 ![image](https://user-images.githubusercontent.com/9194446/224118776-a4dcd873-d3bf-4c7b-836b-c7e72b47ae6e.png)
