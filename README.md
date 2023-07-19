@@ -24,22 +24,26 @@ The main system requirements are:
 ### Docker (recommended)
 Inside your app's root directory, run:
 ```shell
-$ docker run -t --rm -v $(pwd):/app backdevs/desniff:latest .env.example ./config ./app
+docker run -t --rm -v $(pwd):/app backdevs/desniff:latest .env.example ./config ./app
 ````
 
 ### Composer dependency
 ```shell
-$ composer require --dev backdevs/dotenv-sniffer
-
-$ vendor/bin/desniff .env.example ./config ./app
+composer require --dev backdevs/dotenv-sniffer
+```
+```shell
+vendor/bin/desniff .env.example ./config ./app
 ```
 
 ### PHAR
 ```shell
-$ curl -fsSL https://github.com/backdevs/php-dotenv-sniffer/releases/latest/download/desniff.phar -o /tmp/desniff
-$ chmod +x /tmp/desniff
-
-$ /tmp/desniff .env.example ./config ./app
+curl -fsSL https://github.com/backdevs/php-dotenv-sniffer/releases/latest/download/desniff.phar -o /tmp/desniff
+```
+```shell
+chmod +x /tmp/desniff
+```
+```shell
+/tmp/desniff .env.example ./config ./app
 ```
 
 ## Options and Arguments
