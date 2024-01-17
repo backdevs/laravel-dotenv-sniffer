@@ -1,10 +1,10 @@
 <div align="center">
 
-# Dotenv Sniffer
+# Laravel Dotenv Sniffer
 A code sniffer for environment variables not declared in `.env` files
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/backdevs/php-dotenv-sniffer/test.yml?label=tests)
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/backdevs/php-dotenv-sniffer?label=latest)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/backdevs/laravel-dotenv-sniffer/test.yml?label=tests)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/backdevs/laravel-dotenv-sniffer?label=latest)
 
 <img alt="header" src="resources/readme/header.png" width="800"/>
 
