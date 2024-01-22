@@ -12,8 +12,6 @@ A code sniffer for environment variables not declared in `.env` files
 
 ---
 
-> :warning: **This is project is very much a work in progress and your mileage may vary!**
-
 ## Requirements
 The main system requirements are:
 - [Docker](https://docs.docker.com/get-docker) `^24.0`
