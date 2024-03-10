@@ -46,7 +46,7 @@ jobs:
       uses: actions/cache@v4
       with:
         path: dist/${{ env.PHAR_NAME }}
-        key: ${{ runner.os }}-phar-${{ hashFiles('src/*.php') }}
+        key: ${{ runner.os }}-phar-${{ hashFiles('src/*.php') }}-${{ hashFiles('**/composer.lock') }}
 
     - name: Build PHAR
       uses: addnab/docker-run-action@v3
