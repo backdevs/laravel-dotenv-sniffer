@@ -9,7 +9,7 @@ A code sniffer for environment variables **not** declared in `.env` files
 <img alt="header" src="resources/readme/header.png" width="800"/>
 
 While working on large projects we've noticed that `.env.example` files would often get outdated. \
-This tool provides a fast and simple way of constantly checking your code against `.env` files as either a step in your CI/CD pipeline, a Git hook or whatever works best for your project.
+This tool provides a fast and simple way of constantly checking your code against `.env` files either as a step in your CI/CD pipeline, a Git hook or whatever works best for your project.
 
 </div>
 
