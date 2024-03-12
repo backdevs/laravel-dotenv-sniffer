@@ -3,20 +3,21 @@
 # Laravel Dotenv Sniffer
 A code sniffer for environment variables not declared in `.env` files
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/backdevs/laravel-dotenv-sniffer/test.yml?label=tests)
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/backdevs/laravel-dotenv-sniffer?label=latest)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/backdevs/laravel-dotenv-sniffer/test.yml?label=tests)](https://github.com/backdevs/laravel-dotenv-sniffer/actions/workflows/test.yml)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/backdevs/laravel-dotenv-sniffer?label=latest)](https://github.com/backdevs/laravel-dotenv-sniffer/releases/latest)
 
 <img alt="header" src="resources/readme/header.png" width="800"/>
+
+While working on large projects we've noticed that `.env.example` files would often get outdated. \
+This tool provides a fast and simple way of constantly checking your code against `.env` files as either a step in your CI/CD pipeline, a Git hook or whatever works best for your project.
 
 </div>
 
 ---
 
 ## Requirements
-The main system requirements are:
-- [Docker](https://docs.docker.com/get-docker) `^24.0`
-- [PHP](https://www.php.net/downloads) `^8.1` (required if not using Docker)
-- [Tokenizer extension](https://www.php.net/manual/en/book.tokenizer.php) (required if not using Docker)
+- [PHP](https://www.php.net/downloads) `^8.1`
+- [Tokenizer extension](https://www.php.net/manual/en/book.tokenizer.php)
 
 ## Usage 
 ### Docker (recommended)
