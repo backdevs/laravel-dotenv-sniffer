@@ -1,4 +1,4 @@
-FROM php:8.3.10-cli-alpine
+FROM php:8.3.12-cli-alpine
 
 COPY docker-entrypoint.sh /
 
